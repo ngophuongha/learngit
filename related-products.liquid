@@ -1,0 +1,50 @@
+{%if settings.show_related_product%}
+{% if collection == null or collection.handle == 'frontpage' or collection.handle == 'all' %}
+{% assign found_a_collection = false %}
+{% for c in product.collections %}
+{% if found_a_collection == false and c.handle != 'frontpage' and c.handle != 'all' and c.all_products_count > 1 %}
+{% assign found_a_collection = true %}
+{% assign collection = c %}
+{% endif %}
+{% endfor %}
+{% endif %}
+{% if collection and collection.products_count > 1 %}
+<section id="related-products">
+	<div class="home-section-head clearfix">
+		<div class="section-title text-center">
+			<h2>
+				{{settings.related_pro_title}}
+			</h2>
+			<span class="section-title-border"></span>
+		</div>
+	</div>
+	<div class="home-section-body">
+		<div class="grid mg-left-15">
+			<div id="owl-related-products-slider" class="owl-carousel owl-theme">
+				{% assign current_product = product %}
+				{% assign current_product_found = false %}
+				{% for product_layout in collection.products limit: settings.related_product_limit %}
+
+				{% assign on_sale = false %}
+				{% if product_layout.compare_at_price > product_layout.price %}
+				{% assign on_sale = true %}
+				{% endif %}
+
+				{% if product_layout.handle == current_product.handle %}
+				{% assign current_product_found = true %}
+				{% else %}
+				{% unless current_product_found == false and forloop.last %}
+
+				<div class="item grid__item pd-left15">
+					{%include 'product-item'%}
+				</div>
+
+				{% endunless %}
+				{% endif %}
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+</section>
+{% endif %}
+{% endif %}

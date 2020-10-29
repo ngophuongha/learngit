@@ -1,0 +1,55 @@
+<section id="home-collection-tabs">
+	<div class="section-title wow fadeInDown text-center">
+		<h2>
+			<b>{{settings.hcoltabs_title}}</b>
+			</h2>
+		<span class="section-title-border"></span>
+	</div>
+
+	<div class="hmp-tab-wrapper1">
+		<div class="tab text-center clearfix">
+			{%for i in (1..5)%}
+			{%capture hmodule_tab_enable1%}hmodule_tab_enable1_{{i}}{%endcapture%}
+			{%capture hmodule_tab_title1%}hmodule_tab_title1_{{i}}{%endcapture%}
+			{%if settings[hmodule_tab_enable1]%}
+			<button class="hmp-tablinks1 wow fadeInLeft" onclick="openHmpTab1(event, 'hmptab1_{{i}}')" 
+							{% if forloop.first == true %}id="defaultOpenHmpTab1"{%endif%}
+							data-wow-delay="{{i | times:0.2}}s"
+							data-wow-duration="0.75s"
+							><b>{{settings[hmodule_tab_title1]}}</b></button>
+			{%endif%}					
+			{%endfor%}
+		</div>
+
+		{%for i in (1..5)%}
+		{%capture hmodule_tab_enable1%}hmodule_tab_enable1_{{i}}{%endcapture%}
+		{%capture hmodule_tab_title1%}hmodule_tab_title1_{{i}}{%endcapture%}
+		{%capture hmodule_tab_select1%}hmodule_tab_select1_{{i}}{%endcapture%}
+		{%capture hmodule_tab_limit1%}hmodule_tab_limit1_{{i}}{%endcapture%}
+		{%assign _hmodule_tab_select1 = settings[hmodule_tab_select1]%}
+
+		{%if settings[hmodule_tab_enable1]%}
+		<div id="hmptab1_{{i}}" class="hmp-tabcontent1">
+			<div class="grid-uniform mg-left-15">
+				{%if collections[_hmodule_tab_select1]products_count > 0%}
+				{%for product_layout in collections[_hmodule_tab_select1]products limit: settings[hmodule_tab_limit1]%}
+				<div class="grid__item pd-left15 large--one-quarter medium--one-third small--one-half">
+					{%include 'product-item'%}
+				</div>
+				{%endfor%}
+				<div class="grid__item pd-left15 large--one-whole text-center">
+					<a href="{{collections[_hmodule_tab_select1]url}}" class="hmp-viewmore">Xem tất cả {{settings[hmodule_tab_title1]}}</a>
+				</div>
+				{%else%}
+				<div class="grid__item pd-left15 large--one-whole text-center">
+					Chưa có sản phẩm nào trong nhóm sản phẩm này !
+				</div>
+				{%endif%}
+			</div>
+		</div>
+		{%endif%}	
+
+		{%endfor%}				
+
+	</div>
+</section>

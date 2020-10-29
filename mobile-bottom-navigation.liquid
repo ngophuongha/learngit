@@ -1,0 +1,30 @@
+<section id="mobile-bottom-navigation" class="large--hide medium--hide">
+	<div class="grid mg-left-0">
+		{% for i in (1..4) %}
+		{%capture mobile_bot_nav_icon%}mobile_bot_nav_icon{{i}}{%endcapture%}
+		{%capture mobile_bot_nav_title%}mobile_bot_nav_title{{i}}{%endcapture%}
+		{%capture mobile_bot_nav_url%}mobile_bot_nav_url{{i}}{%endcapture%}	
+		<div class="grid__item medium--two-tenths small--two-tenths pd-left0">
+			<div class="mobile-nav-item">
+				<a href="{{settings[mobile_bot_nav_url]}}">
+					{{settings[mobile_bot_nav_icon]}}<br />{{settings[mobile_bot_nav_title]}}
+				</a>
+			</div>
+		</div>
+		{%endfor%}
+
+		<div class="grid__item medium--two-tenths small--two-tenths pd-left0">
+			<div class="mobile-nav-item">
+				<a href="{{settings.mobile_bot_nav_url5}}">
+					{{settings.mobile_bot_nav_icon5}}<br />{{settings.mobile_bot_nav_title5}}
+					<span class="number">
+						{{ cart.item_count }}
+					</span>
+				</a>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+

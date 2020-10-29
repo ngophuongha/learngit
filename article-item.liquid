@@ -1,0 +1,31 @@
+<div class="article-item">
+	<div class="article-img">
+		<a href="{{article_layout.url}}">
+			<img src="{{article_layout.image.src | img_url: 'large'}}" alt="{{article_layout.title}}" />
+		</a>
+	</div>
+	<div class="article-info-wrapper">
+		<div class="article-title">
+			<b><a href="{{article_layout.url}}">{{article_layout.title | truncate: 90}}</a></b>
+		</div>
+		<div class="article-desc">
+			{% if article_layout.excerpt == blank %}
+			{{ article_layout.content | strip_html | truncate: 130 }}
+			{% else %}
+			{{ article_layout.excerpt | strip_html | truncate: 130 }}
+			{% endif %}
+		</div>
+		<div class="article-info">
+			<div class="article-date">
+				<i class="fas fa-calendar-alt"></i> {{ article_layout.published_at | date: '%d/%m/%y' }}
+			</div>
+			<div class="article-author">
+				<i class="fas fa-user"></i> {{article_layout.author}}
+			</div>
+			<div class="article-comment">
+				<i class="fas fa-comments"></i> <span class="fb-comments-count" data-href="{{shop.url}}{{article_layout.url}}"></span>
+			</div>
+		</div>
+	</div>
+</div>
+

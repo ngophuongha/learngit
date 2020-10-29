@@ -1,0 +1,62 @@
+<div class="blog-sidebar">
+	{%if settings.show_blog_categories%}
+	<div class="list-categories">
+		<div class="blog-sb-title clearfix">
+			<h3>
+				{{settings.blog_categories_title}}
+			</h3>
+		</div>
+		<ul class="no-bullets">
+			{%for link in linklists[settings.blog_sidebar_select].links%}
+			{%assign _blog = link.object%}
+			<li class="{%if blog.url == _blog.url%}active{%endif%}">
+				<a href="{{_blog.url}}">
+					<span class="isb-cate-icon"><i class="fas fa-caret-right"></i></span>
+					<span class="isb-cate-text">{{_blog.title}}</span>
+				</a>
+			</li>
+			{%endfor%}
+		</ul>
+	</div>
+	{%endif%}
+
+	{%if settings.show_blog_banner_1%}
+	<div class="blog-sb-banner">
+		<a href="{{settings.blog_banner_url_1}}">
+			<img src="{{'blog_banner_1.png' | asset_url}}" alt="{{settings.blog_banner_alt_1}}" />
+		</a>
+	</div>
+	{%endif%}
+
+	{%if settings.show_blog_tags%}
+	<div class="all-tags">
+		<div class="blog-sb-title clearfix">
+			<h3>
+				{{settings.blog_tags_title}}
+			</h3>
+		</div>
+		<div class="all-tags-wrapper clearfix">
+			{%for link in linklists[settings.blog_sidebar_select].links%}
+			{%assign _blog = link.object%}
+			{% for tag in blogs[_blog.handle]all_tags %}
+			{%unless tag contains '#loai_'%}
+			<a class="tag-item" href="{{blogs[_blog.handle]url}}/tagged/{{ tag | handle }}">{{ tag }}</a>
+			{%endunless%}
+			{%endfor%}
+			{%endfor%}
+		</div>
+	</div>
+	{%endif%}
+
+	{%if settings.show_blog_banner_2%}
+	<div class="blog-sb-banner">
+		<a href="{{settings.blog_banner_url_2}}">
+			<img src="{{'blog_banner_2.png' | asset_url}}" alt="{{settings.blog_banner_alt_2}}" />
+		</a>
+	</div>
+	{%endif%}
+
+	{%if settings.show_blog_fbpage%}
+	<div class="fb-page medium--hide small--hide" data-href="{{settings.social_facebook_link}}" data-tabs="timeline" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="{{settings.social_facebook_link}}" class="fb-xfbml-parse-ignore"><a href="{{settings.social_facebook_link}}">Facebook</a></blockquote></div>
+	{%endif%}
+</div>

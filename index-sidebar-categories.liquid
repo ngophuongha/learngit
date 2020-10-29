@@ -1,0 +1,16 @@
+<div id="index-sidebar-categories" class="wow fadeInLeft">
+	<h3 class="text-center">
+		{{settings.isb_cate_title}}
+	</h3>
+	<ul class="no-bullets">
+		{%assign _isb_cate_select = settings.isb_cate_select%}
+		{%for isb_cate_link in linklists[_isb_cate_select]links%}
+		<li>
+			<a href="{{isb_cate_link.url}}">
+				<span class="isb-cate-icon"><i class="fas fa-caret-right"></i></span>
+				<span class="isb-cate-text">{{isb_cate_link.title}}</span>
+			</a>
+		</li>
+		{%endfor%}
+	</ul>
+</div>

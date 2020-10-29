@@ -1,0 +1,54 @@
+{% assign on_sale = false %}
+{% if product_layout.compare_at_price > product_layout.price %}
+{% assign on_sale = true %}
+{% endif %}
+
+{% assign sold_out = true %}
+{% if product_layout.available %}
+{% assign sold_out = false %}
+{% endif %}		
+
+<div class="product-item">
+	<div class="product-img">
+		<a href="{{product_layout.url  | within: collection}}">
+			<img id="{{product_layout.id}}" 
+					 {%if template contains 'index' or template contains 'product'%}
+					 class="lazyload" src="{{ 'lazyload.jpg' | asset_url }}" data-src="{{ product_layout.featured_image.src | img_url: 'medium' }}" 
+					 {%else%}
+					 src="{{ product_layout.featured_image.src | img_url: 'medium' }}"
+					 {%endif%}
+					 alt="{{product_layout.title}}" />
+		</a>
+
+		{% if on_sale %}
+		<div class="tag-saleoff text-center">
+			-{{product_layout.compare_at_price_max | minus: product_layout.price | divided_by:product_layout.compare_at_price_max | times : 100 | round : 0}}%
+		</div>
+		{% endif %}
+
+		{%if sold_out%}
+		<div class="tag-soldout text-center">Hết</div>
+		{%endif%}
+
+		<div class="product-actions text-center clearfix">
+			<div>
+				<button type="button" class="btnQuickView quick-view medium--hide small--hide" data-handle="{{product_layout.url}}"><span><i class="fa fa-search-plus" aria-hidden="true"></i></span></button>
+				<button type="button" {%if sold_out%}disabled{%endif%} class="btnBuyNow buy-now medium--hide small--hide" data-id="{{product_layout.selected_or_first_available_variant.id}}">{%if sold_out%}<span>Hết hàng</span>{%else%}<span>Mua ngay</span>{%endif%}</button>
+				<button type="button" {%if sold_out%}disabled{%endif%} class="btnAddToCart add-to-cart medium--hide small--hide" data-id="{{product_layout.selected_or_first_available_variant.id}}"><span><i class="fa fa-cart-plus" aria-hidden="true"></i></span></button>
+			</div>
+		</div>
+	</div>
+
+	<div class="product-item-info text-center">
+		<div class="product-title">
+			<a href="{{product_layout.url}}">{{product_layout.title | truncate: 45}}</a>
+		</div>
+
+		<div class="product-price clearfix">
+			<span class="current-price">{{product_layout.price | money}}</span>
+			{% if on_sale %}
+			<span class="original-price"><s>{{product_layout.compare_at_price_max | money}}</s></span>
+			{% endif %}
+		</div>
+	</div>
+</div>

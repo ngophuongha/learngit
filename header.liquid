@@ -1,0 +1,261 @@
+{%assign _hdt_menu_select = settings.hdt_menu_select%}
+
+<header id="header">
+	<div class="desktop-header medium--hide small--hide">
+		<div class="desktop-header-top">
+			<div class="wrapper">
+				<div class="inner">
+					<div class="grid">
+						<div class="grid__item large--one-third">
+							<div class="hdt-left-contact wow fadeInLeft" data-wow-duration="0.75s" data-wow-delay="0.2s">
+								<a href="tel:{{settings.shop_hotline1}}"><i class="fas fa-phone"></i> {{settings.shop_hotline1}}</a>
+								<a href="mailto:{{settings.shop_email}}"><i class="fas fa-envelope"></i> {{settings.shop_email}}</a>
+							</div>
+						</div>
+						<div class="grid__item large--two-thirds text-right">
+							<div class="hdt-right-search">
+								{%include 'search-form-wrapper'%}
+							</div>
+							<div class="hdt-account">
+								{% if customer %}
+								<a href="/account" class="wow fadeInRight" data-wow-duration="0.75s" data-wow-delay="0.8s">Chào, {{customer.name}}</a>
+								<a href="/account/logout" class="wow fadeInRight" data-wow-duration="0.75s" data-wow-delay="1s">Đăng xuất</a>
+								{%else%}
+								<a href="/account/login" class="wow fadeInRight" data-wow-duration="0.75s" data-wow-delay="0.8s">Đăng nhập</a>
+								<a href="/account/register" class="wow fadeInRight" data-wow-duration="0.75s" data-wow-delay="1s">Đăng kí</a>
+								{%endif%}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="desktop-header-center">
+			<div class="wrapper">
+				<div class="inner">
+					<div class="grid">
+						<div class="grid__item large--three-twelfths">
+							<div class="hd-logo wow fadeInUp">
+								{%if template contains 'index'%}
+								{%if settings.logo_use_image %}		
+								<h1>
+									<a href="/">
+										{{shop.title}}<img src="{{"logo.png" | asset_url}}" alt="{{shop.title}}" />
+									</a>
+								</h1>
+								{%else%}
+								<h1>
+									<a href="/">
+										{{shop.title}}
+									</a>
+								</h1>
+								{%endif%}
+
+								{%else%}
+
+								{%if settings.logo_use_image%}
+								<a href="/">
+									<img src="{{"logo.png" | asset_url}}" alt="{{shop.title}}" />
+								</a>
+								{%else%}
+								<a href="/">
+									{{shop.title}}
+								</a>
+								{%endif%}
+								{%endif%}
+							</div>
+						</div>
+						<div class="grid__item large--nine-twelfths text-right">
+							<div class="desktop-header-navbar">
+								<ul class="no-bullets">
+									{%assign _hd_mainmenu = settings.hd_mainmenu %}
+									{%for link in linklists[_hd_mainmenu]links%}
+									<li class=
+											"{%if link.active%}active{%endif%} 
+											 wow fadeInRight 
+											 {%if linklists[link.handle]links%}dropdown{%endif%}"
+											data-wow-delay="{{forloop.index | times: 0.2}}s" data-wow-duration="0.75s">
+										<b><a href="{{link.url}}">{{link.title}} {%if linklists[link.handle]links%}<i class="fa fa-angle-down" aria-hidden="true"></i>{%endif%}</a></b>
+										{%if linklists[link.handle]links%}
+										<ul class="no-bullets">
+											{%for linklv2 in linklists[link.handle]links%}
+											<li class="{%if linklists[linklv2.handle]links%}has-child{%endif%}">
+												<i class="fas fa-caret-right"></i> 
+												<a href="{{linklv2.url}}">{{linklv2.title}} {%if linklists[linklv2.handle]links%}<i class="fas fa-angle-right"></i>{%endif%}</a>
+												{%if linklists[linklv2.handle]links%}
+												<ul class="no-bullets">
+													{%for linklv3 in linklists[linklv2.handle]links%}
+													<li>
+														<i class="fas fa-circle"></i>
+														<a href="{{linklv3.url}}">{{linklv3.title}}</a>
+													</li>
+													{%endfor%}
+												</ul>
+												{%endif%}
+											</li>
+											{%endfor%}
+										</ul>
+										{%endif%}
+									</li>
+									{%endfor%}
+								</ul>
+							</div>
+							<div class="desktop-cart-wrapper wow fadeInRight">
+								<a href="javascript:void(0)" class="hd-cart">
+									<i class="fas fa-shopping-bag"></i><span class="hd-cart-count">{{ cart.item_count }}</span>
+								</a>
+								<div class="quickview-cart">
+									<h3>
+										{% if cart.item_count > 0 %}
+										Giỏ hàng của tôi ({{cart.item_count}} sản phẩm)
+										{%else%}
+										Giỏ hàng trống
+										{%endif%}
+										<span class="btnCloseQVCart"><i class="fa fa-times" aria-hidden="true"></i></span>
+									</h3>
+									<ul class="no-bullets">
+										{% if cart.item_count > 0 %}
+										{% for item in cart.items %}
+										<li class="cart-item">
+											<a href="/cart/change?line={{ forloop.index }}&amp;quantity=0" class="cart__remove"><i class="fa fa-times" aria-hidden="true"></i></a>
+											<div class="grid mg-left-15">
+												<div class="grid__item large--four-twelfths medium--four-twelfths small--four-twelfths pd-left15">
+													<div class="cart-item-img text-center">
+														<a href="{{ item.url | within: collections.all }}">
+															{%if item.variant.image%}
+															<img src="{{ item.variant.image | img_url: 'small' }}" alt="{{ item.title | escape }}" />
+															{%else%}
+															<img src="{{ item | img_url: 'small' }}" alt="{{ item.title | escape }}" />
+															{%endif%}
+														</a>
+													</div>
+												</div>
+												<div class="grid__item large--eight-twelfths medium--eight-twelfths small--eight-twelfths pd-left15">
+													<div class="cart-item-info text-left">
+														<a href="{{ item.url }}">{{ item.title  | truncate: 50}}</a> 
+														{% unless item.variant.title contains 'Default' %}
+														<small>{{ item.variant.title }}</small>
+														{% endunless %}
+													</div>
+													<div class="cart-item-price-quantity text-left">
+														<span class="quantity">Số lượng: {{ item.quantity }}</span>
+														<span class="current-price">Giá/sp: {{ item.price | money }}</span>
+													</div>
+												</div>
+											</div>
+										</li>
+										{%endfor%}
+										{%else%}
+										<li>Bạn chưa có sản phẩm nào trong giỏ hàng!</li>
+										{%endif%}
+									</ul>
+									{% if cart.item_count > 0 %}
+									<div class="qv-cart-total">
+										Tạm tính: <span>{{cart.total_price | money}}</span>
+									</div>
+									<div class="quickview-cartactions clearfix">
+										<a href="/cart">Xem giỏ hàng</a>
+										<a href="/checkout">Thanh toán</a>
+									</div>
+									{%endif%}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="mobile-header large--hide">
+		<div class="wrapper">
+			<div class="inner">
+				<div class="grid">
+					<div class="grid__item medium--one-third small--one-third">
+						<div class="hd-logo text-left">
+							{%if settings.logo_use_image%}
+							<a href="/">
+								<img src="{{"logo.png" | asset_url}}" alt="{{shop.title}}" />
+							</a>
+							{%else%}
+							<a href="/">
+								{{shop.title}}
+							</a>
+							{%endif%}
+						</div>
+					</div>
+					<div class="grid__item large--two-twelfths push--large--eight-twelfths medium--two-thirds small--two-thirds clearfix text-right">
+
+						<div class="desktop-cart-wrapper1">
+							<a href="javascript:void(0)" class="hd-cart">
+								<i class="fas fa-shopping-bag"></i><span class="hd-cart-count">{{ cart.item_count }}</span>
+							</a>
+							<div class="quickview-cart">
+								<h3>
+									{% if cart.item_count > 0 %}
+									Giỏ hàng của tôi ({{cart.item_count}} sản phẩm)
+									{%else%}
+									Giỏ hàng trống
+									{%endif%}
+									<span class="btnCloseQVCart"><i class="fa fa-times" aria-hidden="true"></i></span>
+								</h3>
+								<ul class="no-bullets">
+									{% if cart.item_count > 0 %}
+									{% for item in cart.items %}
+									<li class="cart-item">
+										<a href="/cart/change?line={{ forloop.index }}&amp;quantity=0" class="cart__remove"><i class="fa fa-times" aria-hidden="true"></i></a>
+										<div class="grid mg-left-15">
+											<div class="grid__item large--four-twelfths medium--four-twelfths small--four-twelfths pd-left15">
+												<div class="cart-item-img text-center">
+													<a href="{{ item.url | within: collections.all }}">
+														{%if item.variant.image%}
+														<img src="{{ item.variant.image | img_url: 'small' }}" alt="{{ item.title | escape }}" />
+														{%else%}
+														<img src="{{ item | img_url: 'small' }}" alt="{{ item.title | escape }}" />
+														{%endif%}
+													</a>
+												</div>
+											</div>
+											<div class="grid__item large--eight-twelfths medium--eight-twelfths small--eight-twelfths pd-left15">
+												<div class="cart-item-info text-left">
+													<a href="{{ item.url }}">{{ item.title  | truncate: 50}}</a> 
+													{% unless item.variant.title contains 'Default' %}
+													<small>{{ item.variant.title }}</small>
+													{% endunless %}
+												</div>
+												<div class="cart-item-price-quantity text-left">
+													<span class="quantity">Số lượng: {{ item.quantity }}</span>
+													<span class="current-price">Giá/sp: {{ item.price | money }}</span>
+												</div>
+											</div>
+										</div>
+									</li>
+									{%endfor%}
+									{%else%}
+									<li>Bạn chưa có sản phẩm nào trong giỏ hàng!</li>
+									{%endif%}
+								</ul>
+								{% if cart.item_count > 0 %}
+								<div class="qv-cart-total">
+									Tạm tính: <span>{{cart.total_price | money}}</span>
+								</div>
+								<div class="quickview-cartactions clearfix">
+									<a href="/cart">Xem giỏ hàng</a>
+									<a href="/checkout">Thanh toán</a>
+								</div>
+								{%endif%}
+							</div>
+						</div>
+
+						<div class="hd-btnMenu">
+							<a href="javascript:void(0)" class="icon-fallback-text site-nav__link js-drawer-open-right" aria-controls="NavDrawer" aria-expanded="false">
+		
+								<i class="fas fa-bars"></i>
+							</a>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</header>

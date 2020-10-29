@@ -1,0 +1,57 @@
+<div id="index-sidebar-flashsale" class="wow fadeInLeft">
+	<h3 class="text-center">
+		{{settings.isb_flashsale_title}}
+	</h3>
+	<div class="isb-flashsale-wrapper mg-left-15 grid">
+		{%assign _isb_flashsale_select = settings.isb_flashsale_select%}
+		{%if collections[_isb_flashsale_select]products_count > 0 %}				
+		<div id="owl-home-featured-products-slider" class="owl-carousel owl-theme">
+			{%for product_layout in collections[_isb_flashsale_select]products limit: settings.isb_flashsale_limit %}
+			<div class="item grid__item pd-left15">
+				{%include 'product-item'%}
+			</div>
+			{%endfor%}
+		</div>
+		{%else%}
+		<div class="grid__item large--one-whole pd-left15 text-center">
+			Chưa có sản phẩm nào trong nhóm sản phẩm này !
+		</div>
+		{%endif%}
+	</div>
+	{%if settings.hfp_enable_countdown %}
+	<div class="home-collection-countdown text-center">
+		<div class="countdown-days">
+			<div id="days">
+				11
+			</div>
+			<div>
+				Ngày
+			</div>
+		</div>
+		<div class="countdown-hrs">
+			<div id="hrs">
+				11
+			</div>
+			<div>
+				Giờ
+			</div>
+		</div>
+		<div class="countdown-mins">
+			<div id="mins">
+				11
+			</div>
+			<div>
+				Phút
+			</div>
+		</div>
+		<div class="countdown-secs">
+			<div id="secs">
+				11
+			</div>
+			<div>
+				Giây
+			</div>
+		</div>
+	</div>
+	{%endif%}
+</div>
